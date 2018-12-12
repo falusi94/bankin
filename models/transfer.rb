@@ -9,4 +9,8 @@ class Transfer
     @amount = params[:amount]
     @when = params[:when]
   end
+
+  def apply
+    from.balance -= amount
+  end
 end
