@@ -12,5 +12,6 @@ class Transfer
 
   def apply
     from.balance -= amount
+    to.balance += amount
   end
 end

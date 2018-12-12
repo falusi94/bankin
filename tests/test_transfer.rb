@@ -29,4 +29,10 @@ class TestTransfer < Test::Unit::TestCase
     @transfer.apply
     assert_equal balance_before - @transfer.amount, @transfer.from.balance
   end
+
+  def test_transfer_increases_amount
+    balance_before = @transfer.to.balance
+    @transfer.apply
+    assert_equal balance_before + @transfer.amount, @transfer.to.balance
+  end
 end
