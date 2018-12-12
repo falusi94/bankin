@@ -2,12 +2,14 @@ GEM
   remote: https://rubygems.org/
   specs:
     rake (12.3.2)
+    timecop (0.9.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   rake
+  timecop
 
 BUNDLED WITH
    1.17.1
