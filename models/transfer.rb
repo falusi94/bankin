@@ -1,18 +1,19 @@
 # frozen_string_literal: true
 
 class Transfer
-  attr_accessor :from, :to, :amount, :when
+  attr_accessor :from, :to, :amount
+  attr_reader :date
 
   def initialize(params = {})
     @from = params[:from]
     @to = params[:to]
     @amount = params[:amount]
-    @when = params[:when]
   end
 
   def apply
     from.balance -= decrease_amount
     to.balance += amount
+    @date = Time.now
   end
 
   private

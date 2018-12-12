@@ -15,13 +15,10 @@ class TestTransfer < Test::Unit::TestCase
   end
 
   def test_transfer_init_parameters_set_properly
-    Timecop.freeze do
-      transfer = Transfer.new(from: 'Account', to: 'Account', amount: 100, when: Time.now)
-      assert_equal 'Account', transfer.from
-      assert_equal 'Account', transfer.to
-      assert_equal 100, transfer.amount
-      assert_equal Time.now, transfer.when
-    end
+    transfer = Transfer.new(from: 'Account', to: 'Account', amount: 100)
+    assert_equal 'Account', transfer.from
+    assert_equal 'Account', transfer.to
+    assert_equal 100, transfer.amount
   end
 
   def test_transfer_deducts_amount
@@ -42,5 +39,12 @@ class TestTransfer < Test::Unit::TestCase
     @transfer.to = account3
     @transfer.apply
     assert_equal balance_before - @transfer.amount - 5, @transfer.from.balance
+  end
+
+  def test_transfer_date_set_on_success
+    Timecop.freeze do
+      @transfer.apply
+      assert_equal Time.now, @transfer.date
+    end
   end
 end
