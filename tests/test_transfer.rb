@@ -35,4 +35,12 @@ class TestTransfer < Test::Unit::TestCase
     @transfer.apply
     assert_equal balance_before + @transfer.amount, @transfer.to.balance
   end
+
+  def test_transfer_fee_applied_on_inter_bank_transfer
+    balance_before = @transfer.from.balance
+    account3 = Account.new(user: 'Clark', balance: 800, bank: Bank.new)
+    @transfer.to = account3
+    @transfer.apply
+    assert_equal balance_before - @transfer.amount - 5, @transfer.from.balance
+  end
 end

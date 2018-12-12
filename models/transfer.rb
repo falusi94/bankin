@@ -11,7 +11,15 @@ class Transfer
   end
 
   def apply
-    from.balance -= amount
+    from.balance -= decrease_amount
     to.balance += amount
+  end
+
+  private
+
+  def decrease_amount
+    return amount if from.bank == to.bank
+
+    amount + 5
   end
 end
