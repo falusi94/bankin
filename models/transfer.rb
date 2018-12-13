@@ -17,6 +17,7 @@ class Transfer
     from.balance -= decrease_amount
     to.balance += amount
     @date = Time.now
+    log
     true
   end
 
@@ -38,5 +39,9 @@ class Transfer
     return amount unless inter_bank?
 
     amount + 5
+  end
+
+  def log
+    p "Transfered from #{from.user} to #{to.user} #{amount} euros. #{from.user} balance #{from.balance}, #{to.user} #{to.balance}"
   end
 end
