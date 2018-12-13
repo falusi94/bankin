@@ -11,14 +11,24 @@ class Transfer
   end
 
   def apply
+    from.bank.store_transfer(self)
+    to.bank.store_transfer(self)
     return false if invalid?
     return false if fail?
 
     from.balance -= decrease_amount
     to.balance += amount
     @date = Time.now
-    log
+    p to_s
     true
+  end
+
+  def to_s
+    if date
+      "Transfered from #{from.user} to #{to.user} #{amount} euros. #{from.user} balance: #{from.balance}, #{to.user} balance: #{to.balance}, when: #{date}"
+    else
+      "Failed to transfer from #{from.user} to #{to.user} #{amount} euros. #{from.user} balance: #{from.balance}, #{to.user} balance: #{to.balance}"
+    end
   end
 
   private
@@ -39,9 +49,5 @@ class Transfer
     return amount unless inter_bank?
 
     amount + 5
-  end
-
-  def log
-    p "Transfered from #{from.user} to #{to.user} #{amount} euros. #{from.user} balance #{from.balance}, #{to.user} #{to.balance}"
   end
 end

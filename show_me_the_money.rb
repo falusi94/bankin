@@ -6,7 +6,7 @@ require_relative 'models/transfer'
 require_relative 'lib/transfer_agent'
 
 class ShowMeTheMoney
-  attr_reader :jims_account, :emmas_account
+  attr_reader :jims_account, :emmas_account, :bank_a, :bank_b
   def initialize
     @bank_a = Bank.new(name: 'A')
     @bank_b = Bank.new(name: 'B')
@@ -18,5 +18,7 @@ class ShowMeTheMoney
     agent = TransferAgent.new(from: jims_account, to: emmas_account,
                               amount: 20_000, transfer_limit: 1000)
     agent.transfer
+    bank_a.log_transfers
+    bank_b.log_transfers
   end
 end
