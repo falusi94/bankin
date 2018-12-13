@@ -11,7 +11,9 @@ class TestTransfer < Test::Unit::TestCase
     bank = Bank.new(name: 'World Bank')
     account1 = Account.new(user: 'Alice', balance: 1000, bank: bank)
     account2 = Account.new(user: 'Bob', balance: 500, bank: bank)
+    account3 = Account.new(user: 'Clark', balance: 800, bank: Bank.new)
     @transfer = Transfer.new(from: account1, to: account2, amount: 100)
+    @inter_bank_transfer = Transfer.new(from: account1, to: account3, amount: 100)
   end
 
   def test_transfer_init_parameters_set_properly
@@ -34,11 +36,10 @@ class TestTransfer < Test::Unit::TestCase
   end
 
   def test_transfer_fee_applied_on_inter_bank_transfer
-    balance_before = @transfer.from.balance
-    account3 = Account.new(user: 'Clark', balance: 800, bank: Bank.new)
-    @transfer.to = account3
-    @transfer.apply
-    assert_equal balance_before - @transfer.amount - 5, @transfer.from.balance
+    balance_before = @inter_bank_transfer.from.balance
+    until @inter_bank_transfer.apply; end
+    assert_equal balance_before - @inter_bank_transfer.amount - 5,
+                 @inter_bank_transfer.from.balance
   end
 
   def test_transfer_date_set_on_success
@@ -46,5 +47,13 @@ class TestTransfer < Test::Unit::TestCase
       @transfer.apply
       assert_equal Time.now, @transfer.date
     end
+  end
+
+  def test_inter_bank_transfer_can_fail
+    failed = false
+    10_000.times do
+      failed = true unless @inter_bank_transfer.apply
+    end
+    assert_equal true, failed
   end
 end

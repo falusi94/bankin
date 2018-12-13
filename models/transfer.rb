@@ -11,15 +11,26 @@ class Transfer
   end
 
   def apply
+    return false if fail?
+
     from.balance -= decrease_amount
     to.balance += amount
     @date = Time.now
+    true
   end
 
   private
 
+  def fail?
+    inter_bank? && srand % 100 < 30
+  end
+
+  def inter_bank?
+    from.bank != to.bank
+  end
+
   def decrease_amount
-    return amount if from.bank == to.bank
+    return amount unless inter_bank?
 
     amount + 5
   end
