@@ -16,11 +16,7 @@ class Transfer
     return false if invalid?
     return false if fail?
 
-    from.balance -= decrease_amount
-    to.balance += amount
-    @date = Time.now
-    p to_s
-    true
+    transfer
   end
 
   def to_s
@@ -49,5 +45,13 @@ class Transfer
     return amount unless inter_bank?
 
     amount + 5
+  end
+
+  def transfer
+    from.balance -= decrease_amount
+    to.balance += amount
+    @date = Time.now
+    p to_s unless ENV['RAKE_ENV'] == 'test'
+    true
   end
 end

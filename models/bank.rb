@@ -22,6 +22,7 @@ class Bank
   end
 
   def log_transfers
+    return if ENV['RAKE_ENV'] == 'test'
     p '-----------------'
     p "#{name} transfers"
     p '-----------------'

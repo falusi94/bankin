@@ -3,6 +3,7 @@
 task default: %w[run]
 
 task :test do
+  ENV['RAKE_ENV'] = 'test'
   Dir['tests/*.rb'].each { |file| ruby file }
 end
 
