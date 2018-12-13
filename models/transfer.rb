@@ -11,6 +11,7 @@ class Transfer
   end
 
   def apply
+    return false if invalid?
     return false if fail?
 
     from.balance -= decrease_amount
@@ -20,6 +21,10 @@ class Transfer
   end
 
   private
+
+  def invalid?
+    inter_bank? && amount > 1000
+  end
 
   def fail?
     inter_bank? && srand % 100 < 30

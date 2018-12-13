@@ -56,4 +56,13 @@ class TestTransfer < Test::Unit::TestCase
     end
     assert_equal true, failed
   end
+
+  def test_inter_bank_transfer_has_limit
+    succeded = false
+    @inter_bank_transfer.amount = 1200
+    10_000.times do
+      succeded = true if @inter_bank_transfer.apply
+    end
+    assert_equal false, succeded
+  end
 end
