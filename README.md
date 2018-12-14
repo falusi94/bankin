@@ -20,3 +20,12 @@ After modeling the domain(part 1), create a file called `show_me_the_money.rb*` 
 Help Jim send his money by developing a transfer agent. This agent assures that everybody gets their money. When the agent receives an order to transfer money from account A to account B, he issues transfers considering commissions, transfer limits and possibility of transfer failures.
 
 The execution of the script will print the balance of every account before and after the transfers and the history of the transfer of every bank.
+
+## Usage
+Before everything install dependencies using `bundle install`.
+
+After installing dependencies, the application can be run with the following rake task:
+`rake run`
+
+And for tests with:
+`rake test`
