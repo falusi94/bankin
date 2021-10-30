@@ -28,4 +28,4 @@ After installing dependencies, the application can be run with the following rak
 `rake run`
 
 And for tests with:
-`rake test`
+`bundle exec rspec`
