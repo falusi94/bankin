@@ -5,11 +5,11 @@ require_relative '../models/transfer'
 class TransferAgent
   attr_accessor :from, :to, :amount, :transfer_limit
 
-  def initialize(params = {})
-    @from = params[:from]
-    @to = params[:to]
-    @amount = params[:amount]
-    @transfer_limit = params[:transfer_limit]
+  def initialize(from:, to:, amount:, transfer_limit: nil)
+    @from           = from
+    @to             = to
+    @amount         = amount
+    @transfer_limit = transfer_limit
   end
 
   def transfer

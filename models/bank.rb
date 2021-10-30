@@ -4,9 +4,9 @@ class Bank
   attr_accessor :name
   attr_reader :accounts, :transfers
 
-  def initialize(params = {})
-    @name = params[:name]
-    @accounts = []
+  def initialize(name: '')
+    @name      = name
+    @accounts  = []
     @transfers = []
   end
 

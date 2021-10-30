@@ -4,10 +4,10 @@ class Transfer
   attr_accessor :from, :to, :amount
   attr_reader :date
 
-  def initialize(params = {})
-    @from = params[:from]
-    @to = params[:to]
-    @amount = params[:amount]
+  def initialize(from: nil, to: nil, amount: nil)
+    @from   = from
+    @to     = to
+    @amount = amount
   end
 
   def apply
