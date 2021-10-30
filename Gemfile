@@ -3,4 +3,8 @@
 source 'https://rubygems.org'
 
 gem 'rake'
-gem 'timecop'
+
+group :test do
+  gem 'rspec'
+  gem 'timecop'
+end
