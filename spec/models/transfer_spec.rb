@@ -45,7 +45,8 @@ RSpec.describe Transfer do
       it 'applies transfer fee to origin account' do
         allow(transfer).to receive(:fail?).and_return(false)
 
-        expect { transfer.apply }.to change(origin_account, :balance).by(-transfer.amount - 5)
+        expect { transfer.apply }
+          .to change(origin_account, :balance).by(-transfer.amount - described_class::INTERBANK_FEE)
       end
 
       context 'and it fails' do
@@ -61,7 +62,7 @@ RSpec.describe Transfer do
       context 'and the amount exceeds the limit' do
         it 'does not apply the changes' do
           allow(transfer).to receive(:fail?).and_return(false)
-          transfer.amount = 1200
+          transfer.amount = described_class::INTERBANK_AMOUNT_LIMIT + 5
 
           expect do
             expect(transfer.apply).to be false

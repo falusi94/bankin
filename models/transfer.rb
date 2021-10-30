@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Transfer
+  INTERBANK_FEE          = 5
+  INTERBANK_AMOUNT_LIMIT = 1000
+  INTERBANK_FAILURE_RATE = 30
+
   attr_accessor :from, :to, :amount
   attr_reader :date
 
@@ -30,11 +34,11 @@ class Transfer
   private
 
   def invalid?
-    inter_bank? && amount > 1000
+    inter_bank? && amount > INTERBANK_AMOUNT_LIMIT
   end
 
   def fail?
-    inter_bank? && srand % 100 < 30
+    inter_bank? && srand % 100 < INTERBANK_FAILURE_RATE
   end
 
   def inter_bank?
@@ -44,7 +48,7 @@ class Transfer
   def decrease_amount
     return amount unless inter_bank?
 
-    amount + 5
+    amount + INTERBANK_FEE
   end
 
   def transfer
