@@ -43,29 +43,30 @@ RSpec.describe Transfer do
       let(:destination_account) { Account.new(user: 'Clark', balance: 800, bank: Bank.new) }
 
       it 'applies transfer fee to origin account' do
-        expect do
-          until transfer.apply; end
-        end.to change { origin_account.balance }.by(-transfer.amount - 5)
+        allow(transfer).to receive(:fail?).and_return(false)
+
+        expect { transfer.apply }.to change(origin_account, :balance).by(-transfer.amount - 5)
       end
 
-      it 'can fail' do
-        failed = false
-        10_000.times do
-          failed = true unless transfer.apply
-        end
+      context 'and it fails' do
+        it 'does not apply the changes' do
+          allow(transfer).to receive(:fail?).and_return(true)
 
-        expect(failed).to be true
+          expect do
+            expect(transfer.apply).to be false
+          end.not_to change(origin_account, :balance)
+        end
       end
 
-      it 'has a limit' do
-        succeded = false
-        transfer.amount = 1200
+      context 'and the amount exceeds the limit' do
+        it 'does not apply the changes' do
+          allow(transfer).to receive(:fail?).and_return(false)
+          transfer.amount = 1200
 
-        10_000.times do
-          succeded = true if transfer.apply
+          expect do
+            expect(transfer.apply).to be false
+          end.not_to change(origin_account, :balance)
         end
-
-        expect(succeded).to be false
       end
     end
   end
