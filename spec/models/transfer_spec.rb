@@ -15,12 +15,11 @@ RSpec.describe Transfer do
   end
 
   describe '#apply' do
-    let(:bank)           { build(:bank) }
-    let(:origin_account) { Account.new(user: 'Alice', balance: 1000, bank: bank) }
+    let(:origin_account) { build(:account) }
     let(:transfer)       { Transfer.new(from: origin_account, to: destination_account, amount: 100) }
 
     context 'when it is an intra-bank transfer' do
-      let(:destination_account) { Account.new(user: 'Bob', balance: 500, bank: bank) }
+      let(:destination_account) { build(:account, bank: origin_account.bank) }
 
       it 'subtracts the amount from origin account' do
         expect { transfer.apply }.to change(origin_account, :balance).by(-transfer.amount)
@@ -40,7 +39,7 @@ RSpec.describe Transfer do
     end
 
     context 'when it is an inter-bank transfer' do
-      let(:destination_account) { Account.new(user: 'Clark', balance: 800, bank: build(:bank)) }
+      let(:destination_account) { build(:account) }
 
       it 'applies transfer fee to origin account' do
         allow(transfer).to receive(:fail?).and_return(false)

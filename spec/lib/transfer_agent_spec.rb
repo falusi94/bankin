@@ -13,12 +13,11 @@ RSpec.describe TransferAgent do
   end
 
   describe '#transfer' do
-    let(:origin_account) { Account.new(user: 'Alice', balance: 3000, bank: bank) }
-    let(:bank)           { build(:bank) }
+    let(:origin_account) { build(:account) }
 
     context 'when the transfer is intra-bank' do
       it 'transfers the money' do
-        destination_account = Account.new(user: 'Bob', balance: 500, bank: bank)
+        destination_account = build(:account, bank: origin_account.bank)
         agent = described_class.new(from: origin_account, to: destination_account, amount: 100)
 
         expect(agent.transfer).to be true
@@ -27,7 +26,7 @@ RSpec.describe TransferAgent do
 
     context 'when transfer involves inter-bank transfers' do
       it 'transfers the money' do
-        destination_account = Account.new(user: 'Clark', balance: 500, bank: build(:bank))
+        destination_account = build(:account)
         agent = described_class.new(
           from:           origin_account,
           to:             destination_account,
