@@ -15,11 +15,11 @@ RSpec.describe Transfer do
   end
 
   describe '#apply' do
-    let(:origin_account) { build(:account) }
-    let(:transfer)       { Transfer.new(from: origin_account, to: destination_account, amount: 100) }
+    let(:origin_account) { transfer.from }
+    let(:destination_account) { transfer.to }
 
     context 'when it is an intra-bank transfer' do
-      let(:destination_account) { build(:account, bank: origin_account.bank) }
+      let(:transfer) { build(:intra_bank_transfer) }
 
       it 'subtracts the amount from origin account' do
         expect { transfer.apply }.to change(origin_account, :balance).by(-transfer.amount)
@@ -39,7 +39,7 @@ RSpec.describe Transfer do
     end
 
     context 'when it is an inter-bank transfer' do
-      let(:destination_account) { build(:account) }
+      let(:transfer) { build(:inter_bank_transfer) }
 
       it 'applies transfer fee to origin account' do
         allow(transfer).to receive(:fail?).and_return(false)
@@ -59,9 +59,10 @@ RSpec.describe Transfer do
       end
 
       context 'and the amount exceeds the limit' do
+        let(:transfer) { build(:inter_bank_transfer, :over_limit) }
+
         it 'does not apply the changes' do
           allow(transfer).to receive(:fail?).and_return(false)
-          transfer.amount = described_class::INTERBANK_AMOUNT_LIMIT + 5
 
           expect do
             expect(transfer.apply).to be false
