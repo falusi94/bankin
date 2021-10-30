@@ -7,7 +7,7 @@ require_relative '../../models/account'
 RSpec.describe Transfer do
   describe '.new' do
     it 'initializes correctly' do
-      transfer_params = { from: 'from Account', to: 'to Account', amount: 100 }
+      transfer_params = { origin: 'from Account', destination: 'to Account', amount: 100 }
       transfer        = described_class.new(transfer_params)
 
       expect(transfer).to have_attributes(transfer_params)
@@ -15,8 +15,8 @@ RSpec.describe Transfer do
   end
 
   describe '#apply' do
-    let(:origin_account) { transfer.from }
-    let(:destination_account) { transfer.to }
+    let(:origin_account) { transfer.origin }
+    let(:destination_account) { transfer.destination }
 
     context 'when it is an intra-bank transfer' do
       let(:transfer) { build(:intra_bank_transfer) }

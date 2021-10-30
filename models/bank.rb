@@ -16,7 +16,7 @@ class Bank
 
   def store_transfer(transfer)
     return if @transfers.include? transfer
-    return unless transfer.from.bank == self || transfer.to.bank == self
+    return unless transfer.origin.bank == self || transfer.destination.bank == self
 
     @transfers << transfer
   end

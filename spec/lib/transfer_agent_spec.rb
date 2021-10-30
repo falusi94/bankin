@@ -6,7 +6,8 @@ require_relative '../../models/account'
 
 RSpec.describe TransferAgent do
   it 'initializes correctly' do
-    transfer_agent_params = { from: 'account1', to: 'account2', amount: 500, transfer_limit: 1500 }
+    transfer_agent_params =
+      { origin: 'account1', destination: 'account2', amount: 500, transfer_limit: 1500 }
     transfer_agent        = described_class.new(transfer_agent_params)
 
     expect(transfer_agent).to have_attributes(transfer_agent_params)
@@ -18,7 +19,7 @@ RSpec.describe TransferAgent do
     context 'when the transfer is intra-bank' do
       it 'transfers the money' do
         destination_account = build(:account, bank: origin_account.bank)
-        agent = described_class.new(from: origin_account, to: destination_account, amount: 100)
+        agent = described_class.new(origin: origin_account, destination: destination_account, amount: 100)
 
         expect(agent.transfer).to be true
       end
@@ -28,8 +29,8 @@ RSpec.describe TransferAgent do
       it 'transfers the money' do
         destination_account = build(:account)
         agent = described_class.new(
-          from:           origin_account,
-          to:             destination_account,
+          origin:         origin_account,
+          destination:    destination_account,
           amount:         2000,
           transfer_limit: 1000
         )

@@ -3,11 +3,11 @@
 require_relative '../models/transfer'
 
 class TransferAgent
-  attr_accessor :from, :to, :amount, :transfer_limit
+  attr_accessor :origin, :destination, :amount, :transfer_limit
 
-  def initialize(from:, to:, amount:, transfer_limit: nil)
-    @from           = from
-    @to             = to
+  def initialize(origin:, destination:, amount:, transfer_limit: nil)
+    @origin         = origin
+    @destination    = destination
     @amount         = amount
     @transfer_limit = transfer_limit
   end
@@ -33,11 +33,11 @@ class TransferAgent
   end
 
   def transfer_amount(amount)
-    transfer = Transfer.new(from: from, to: to, amount: amount)
+    transfer = Transfer.new(origin: origin, destination: destination, amount: amount)
     transfer.apply
   end
 
   def inter_bank?
-    from.bank != to.bank
+    origin.bank != destination.bank
   end
 end

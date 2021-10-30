@@ -5,18 +5,18 @@ class Transfer
   INTERBANK_AMOUNT_LIMIT = 1000
   INTERBANK_FAILURE_RATE = 30
 
-  attr_accessor :from, :to, :amount
+  attr_accessor :origin, :destination, :amount
   attr_reader :date
 
-  def initialize(from: nil, to: nil, amount: nil)
-    @from   = from
-    @to     = to
-    @amount = amount
+  def initialize(origin: nil, destination: nil, amount: nil)
+    @origin      = origin
+    @destination = destination
+    @amount      = amount
   end
 
   def apply
-    from.bank.store_transfer(self)
-    to.bank.store_transfer(self)
+    origin.bank.store_transfer(self)
+    destination.bank.store_transfer(self)
     return false if invalid?
     return false if fail?
 
@@ -25,9 +25,9 @@ class Transfer
 
   def to_s
     if date
-      "Transfered from #{from.user} to #{to.user} #{amount} euros. #{from.user} balance: #{from.balance}, #{to.user} balance: #{to.balance}, when: #{date}"
+      "Transfered from #{origin.user} to #{destination.user} #{amount} euros. #{origin.user} balance: #{origin.balance}, #{destination.user} balance: #{destination.balance}, when: #{date}"
     else
-      "Failed to transfer from #{from.user} to #{to.user} #{amount} euros. #{from.user} balance: #{from.balance}, #{to.user} balance: #{to.balance}"
+      "Failed to transfer from #{origin.user} to #{destination.user} #{amount} euros. #{origin.user} balance: #{origin.balance}, #{destination.user} balance: #{destination.balance}"
     end
   end
 
@@ -42,7 +42,7 @@ class Transfer
   end
 
   def inter_bank?
-    from.bank != to.bank
+    origin.bank != destination.bank
   end
 
   def decrease_amount
@@ -52,8 +52,8 @@ class Transfer
   end
 
   def transfer
-    from.balance -= decrease_amount
-    to.balance += amount
+    origin.balance -= decrease_amount
+    destination.balance += amount
     @date = Time.now
     p to_s unless ENV['RAKE_ENV'] == 'test'
     true

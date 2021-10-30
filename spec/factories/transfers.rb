@@ -5,13 +5,13 @@ FactoryBot.define do
     amount { 100 }
 
     trait :inter_bank do
-      from { build(:account) }
-      to   { build(:account) }
+      origin      { build(:account) }
+      destination { build(:account) }
     end
 
     trait :intra_bank do
-      from { build(:account) }
-      to   { build(:account, bank: from.bank) }
+      origin      { build(:account) }
+      destination { build(:account, bank: origin.bank) }
     end
   end
 

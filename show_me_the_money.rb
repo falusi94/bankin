@@ -15,7 +15,7 @@ class ShowMeTheMoney
   end
 
   def run
-    agent = TransferAgent.new(from: jims_account, to: emmas_account,
+    agent = TransferAgent.new(origin: jims_account, destination: emmas_account,
                               amount: 20_000, transfer_limit: 1000)
     agent.transfer
     bank_a.log_transfers
