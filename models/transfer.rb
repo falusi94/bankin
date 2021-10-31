@@ -5,8 +5,7 @@ class Transfer
   INTERBANK_AMOUNT_LIMIT = 1000
   INTERBANK_FAILURE_RATE = 30
 
-  attr_accessor :origin, :destination, :amount
-  attr_reader :date
+  attr_reader :origin, :destination, :amount, :date
 
   def initialize(origin: nil, destination: nil, amount: nil)
     @origin      = origin

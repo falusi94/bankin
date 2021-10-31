@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class Account
-  attr_accessor :user, :bank
-  attr_reader :balance
+  attr_reader :user, :bank, :balance
 
   def initialize(user: nil, balance: nil, bank: nil)
     @user    = user

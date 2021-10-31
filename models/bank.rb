@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class Bank
-  attr_accessor :name
-  attr_reader :accounts, :transfers
+  attr_reader :accounts, :transfers, :name
 
   def initialize(name: '')
     @name      = name

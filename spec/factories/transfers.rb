@@ -2,6 +2,8 @@
 
 FactoryBot.define do
   factory :transfer do
+    initialize_with { new(attributes) }
+
     amount { 100 }
 
     trait :inter_bank do
