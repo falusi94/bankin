@@ -13,38 +13,51 @@ class Transfer
   end
 
   def apply
-    origin.bank.store_transfer(self)
-    destination.bank.store_transfer(self)
-    return false if invalid?
+    store_transfer_in_banks
+    return false if inter_bank? && over_limit?
 
-    do_transfer
+    transfer_money
+    mark_successful
+    log_transfer
+    true
+  rescue TransferError
+    rollback_transfer
+    false
   end
 
   private
 
-  def invalid?
-    inter_bank? && amount > INTERBANK_AMOUNT_LIMIT
+  def store_transfer_in_banks
+    origin.bank.store_transfer(self)
+    destination.bank.store_transfer(self)
+  end
+
+  def over_limit?
+    amount > INTERBANK_AMOUNT_LIMIT
   end
 
   def inter_bank?
     origin.bank != destination.bank
   end
 
-  def decrease_amount
-    return amount unless inter_bank?
-
-    amount + INTERBANK_FEE
-  end
-
-  def do_transfer
+  def transfer_money
     origin.apply_change(-decrease_amount)
     destination.apply_change(amount, inter_bank_transfer: inter_bank?)
+  end
 
+  def mark_successful
     @date = Time.now
+  end
+
+  def log_transfer
     TransferLogger.info(self)
-    true
-  rescue TransferError
+  end
+
+  def rollback_transfer
     origin.apply_change(decrease_amount)
-    false
+  end
+
+  def decrease_amount
+    inter_bank? ? amount + INTERBANK_FEE : amount
   end
 end
