@@ -7,6 +7,7 @@ gem 'rake'
 gem 'zeitwerk'
 
 group :test do
+  gem 'byebug'
   gem 'factory_bot'
   gem 'rspec'
   gem 'timecop'
