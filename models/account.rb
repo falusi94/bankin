@@ -9,6 +9,8 @@ class Account
     @user    = user
     @balance = balance
     @bank    = bank
+
+    bank.store_account(self)
   end
 
   def apply_change(amount, inter_bank_transfer: false)

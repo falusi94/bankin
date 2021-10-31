@@ -3,10 +3,13 @@
 RSpec.describe Account do
   describe '.new' do
     it 'initializes correctly' do
-      account_params = { user: 'Alice', balance: 2300, bank: 'Bank' }
+      bank           = build(:bank)
+      account_params = { user: 'Alice', balance: 2300, bank: bank }
       account        = described_class.new(account_params)
 
       expect(account).to have_attributes(account_params)
+
+      expect(bank.accounts).to include(account)
     end
   end
 
