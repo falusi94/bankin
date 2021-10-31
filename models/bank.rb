@@ -26,6 +26,6 @@ class Bank
     p '-----------------'
     p "#{name} transfers"
     p '-----------------'
-    transfers.each { |transfer| p transfer.to_s }
+    transfers.each { |transfer| TransferLogger.info(transfer) }
   end
 end

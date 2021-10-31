@@ -13,6 +13,12 @@ FactoryBot.define do
       origin      { build(:account) }
       destination { build(:account, bank: origin.bank) }
     end
+
+    trait :successful do
+      after :build do |transfer|
+        transfer.instance_variable_set(:@date, Time.now)
+      end
+    end
   end
 
   factory :intra_bank_transfer, parent: :transfer, traits: [:intra_bank]

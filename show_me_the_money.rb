@@ -4,6 +4,7 @@ require_relative 'models/account'
 require_relative 'models/bank'
 require_relative 'models/transfer'
 require_relative 'lib/transfer_agent'
+require_relative 'lib/transfer_logger'
 
 class ShowMeTheMoney
   attr_reader :jims_account, :emmas_account, :bank_a, :bank_b

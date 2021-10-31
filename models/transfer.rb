@@ -23,14 +23,6 @@ class Transfer
     transfer
   end
 
-  def to_s
-    if date
-      "Transfered from #{origin.user} to #{destination.user} #{amount} euros. #{origin.user} balance: #{origin.balance}, #{destination.user} balance: #{destination.balance}, when: #{date}"
-    else
-      "Failed to transfer from #{origin.user} to #{destination.user} #{amount} euros. #{origin.user} balance: #{origin.balance}, #{destination.user} balance: #{destination.balance}"
-    end
-  end
-
   private
 
   def invalid?
@@ -55,7 +47,7 @@ class Transfer
     origin.balance -= decrease_amount
     destination.balance += amount
     @date = Time.now
-    p to_s unless ENV['RAKE_ENV'] == 'test'
+    TransferLogger.info(self) unless ENV['RAKE_ENV'] == 'test'
     true
   end
 end
