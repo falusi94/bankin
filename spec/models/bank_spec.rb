@@ -11,10 +11,12 @@ RSpec.describe Bank do
   end
 
   describe '#store_transfer' do
+    let(:bank) { build(:bank) }
+
     context 'when the transfer is already stored' do
       it 'does not add it again' do
-        transfer = build(:inter_bank_transfer)
-        bank     = transfer.origin.bank
+        account  = build(:account, bank: bank)
+        transfer = build(:transfer, origin: account)
         bank.store_transfer(transfer)
 
         bank.store_transfer(transfer)
@@ -25,8 +27,7 @@ RSpec.describe Bank do
 
     context 'when the transfer does not belong to the bank' do
       it 'does nothing' do
-        transfer = build(:inter_bank_transfer)
-        bank     = build(:bank)
+        transfer = build(:transfer)
 
         bank.store_transfer(transfer)
 
