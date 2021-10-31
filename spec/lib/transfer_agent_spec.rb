@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/transfer_agent'
-require_relative '../../models/bank'
-require_relative '../../models/account'
-
 RSpec.describe TransferAgent do
   it 'initializes correctly' do
     transfer_agent_params =

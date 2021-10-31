@@ -16,9 +16,8 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
-require 'timecop'
-require 'factory_bot'
-require 'transfer_logger'
+ENV['TEST'] = 'true'
+require_relative '../boot'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

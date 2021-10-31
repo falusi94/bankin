@@ -42,6 +42,7 @@ DEPENDENCIES
   rake
   rspec
   timecop
+  zeitwerk
 
 BUNDLED WITH
    1.17.2

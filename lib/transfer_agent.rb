@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../models/transfer'
-
 class TransferAgent
   attr_accessor :origin, :destination, :amount, :transfer_limit
 

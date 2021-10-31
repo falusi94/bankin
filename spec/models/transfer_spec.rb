@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../../models/transfer'
-require_relative '../../models/bank'
-require_relative '../../models/account'
-
 RSpec.describe Transfer do
   describe '.new' do
     it 'initializes correctly' do

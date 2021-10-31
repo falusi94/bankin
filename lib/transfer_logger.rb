@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'active_support/core_ext/module/delegation'
-
 class TransferLogger
   def initialize(transfer)
     @transfer = transfer

@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/transfer_logger'
-require_relative '../../models/transfer'
-require_relative '../../models/account'
-require_relative '../../models/bank'
-
 RSpec.describe TransferLogger do
   context 'when the transfer is successful' do
     it 'prints successful message' do
