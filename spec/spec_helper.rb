@@ -18,6 +18,7 @@
 
 require 'timecop'
 require 'factory_bot'
+require 'transfer_logger'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -104,5 +105,10 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.before(:suite) do
     FactoryBot.find_definitions
+  end
+
+  # Global mocks
+  config.before(:each) do
+    allow(TransferLogger).to receive(:info)
   end
 end

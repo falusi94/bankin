@@ -47,7 +47,7 @@ class Transfer
     origin.balance -= decrease_amount
     destination.balance += amount
     @date = Time.now
-    TransferLogger.info(self) unless ENV['RAKE_ENV'] == 'test'
+    TransferLogger.info(self)
     true
   end
 end
