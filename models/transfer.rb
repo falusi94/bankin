@@ -25,6 +25,10 @@ class Transfer
     false
   end
 
+  def successful?
+    completed_at.present?
+  end
+
   private
 
   def store_transfer_in_banks

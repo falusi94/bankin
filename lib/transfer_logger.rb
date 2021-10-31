@@ -18,7 +18,7 @@ class TransferLogger
   private
 
   def build_message
-    if completed_at
+    if transfer.successful?
       successful_message
     else
       failure_message
