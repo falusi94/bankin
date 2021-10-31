@@ -44,8 +44,9 @@ class Transfer
   end
 
   def transfer
-    origin.balance -= decrease_amount
-    destination.balance += amount
+    origin.apply_change(-decrease_amount)
+    destination.apply_change(amount)
+
     @date = Time.now
     TransferLogger.info(self)
     true

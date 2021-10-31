@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :account do
+    initialize_with { new(attributes) }
     sequence(:user) { |i| "User ##{i}" }
 
     bank
