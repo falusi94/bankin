@@ -29,7 +29,7 @@ RSpec.describe Transfer do
         Timecop.freeze do
           transfer.apply
 
-          expect(transfer).to have_attributes(date: Time.now)
+          expect(transfer).to have_attributes(completed_at: Time.now)
         end
       end
     end

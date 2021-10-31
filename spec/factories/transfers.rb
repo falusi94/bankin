@@ -18,7 +18,7 @@ FactoryBot.define do
 
     trait :successful do
       after :build do |transfer|
-        transfer.instance_variable_set(:@date, Time.now)
+        transfer.instance_variable_set(:@completed_at, Time.now)
       end
     end
   end

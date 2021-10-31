@@ -18,7 +18,7 @@ class TransferLogger
   private
 
   def build_message
-    if date
+    if completed_at
       successful_message
     else
       failure_message
@@ -32,7 +32,7 @@ class TransferLogger
   def successful_message
     "Transfered from #{origin.user} to #{destination.user} #{amount} euros. #{origin.user}" \
       " balance: #{origin.balance}, #{destination.user} balance: #{destination.balance}," \
-      " when: #{date}"
+      " when: #{completed_at}"
   end
 
   def failure_message
@@ -41,7 +41,7 @@ class TransferLogger
       " #{destination.balance}"
   end
 
-  delegate :origin, :destination, :amount, :date, to: :transfer
+  delegate :origin, :destination, :amount, :completed_at, to: :transfer
 
   attr_reader :transfer
 end

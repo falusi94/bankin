@@ -4,7 +4,7 @@ class Transfer
   INTERBANK_FEE          = 5
   INTERBANK_AMOUNT_LIMIT = 1000
 
-  attr_reader :origin, :destination, :amount, :date
+  attr_reader :origin, :destination, :amount, :completed_at
 
   def initialize(origin: nil, destination: nil, amount: nil)
     @origin      = origin
@@ -46,7 +46,7 @@ class Transfer
   end
 
   def mark_successful
-    @date = Time.now
+    @completed_at = Time.now
   end
 
   def log_transfer
