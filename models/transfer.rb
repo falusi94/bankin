@@ -3,7 +3,6 @@
 class Transfer
   INTERBANK_FEE          = 5
   INTERBANK_AMOUNT_LIMIT = 1000
-  INTERBANK_FAILURE_RATE = 30
 
   attr_reader :origin, :destination, :amount, :date
 
@@ -17,19 +16,14 @@ class Transfer
     origin.bank.store_transfer(self)
     destination.bank.store_transfer(self)
     return false if invalid?
-    return false if fail?
 
-    transfer
+    do_transfer
   end
 
   private
 
   def invalid?
     inter_bank? && amount > INTERBANK_AMOUNT_LIMIT
-  end
-
-  def fail?
-    inter_bank? && srand % 100 < INTERBANK_FAILURE_RATE
   end
 
   def inter_bank?
@@ -42,12 +36,15 @@ class Transfer
     amount + INTERBANK_FEE
   end
 
-  def transfer
+  def do_transfer
     origin.apply_change(-decrease_amount)
-    destination.apply_change(amount)
+    destination.apply_change(amount, inter_bank_transfer: inter_bank?)
 
     @date = Time.now
     TransferLogger.info(self)
     true
+  rescue TransferError
+    origin.apply_change(decrease_amount)
+    false
   end
 end

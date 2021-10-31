@@ -24,5 +24,24 @@ RSpec.describe Account do
         expect { account.apply_change(-5) }.to change(account, :balance).by(-5)
       end
     end
+
+    context 'when the transfer is inter-bank' do
+      context 'and it fails' do
+        it 'raises TransferError' do
+          allow(account).to receive(:fail?).and_return(true)
+
+          expect { account.apply_change(5, inter_bank_transfer: true) }
+            .to raise_error(TransferError)
+        end
+      end
+
+      context 'and it does not fail' do
+        it 'raises no error' do
+          allow(account).to receive(:fail?).and_return(false)
+
+          expect { account.apply_change(5, inter_bank_transfer: true) }.not_to raise_error
+        end
+      end
+    end
   end
 end

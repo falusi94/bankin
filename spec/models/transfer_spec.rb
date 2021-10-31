@@ -38,7 +38,7 @@ RSpec.describe Transfer do
       let(:transfer) { build(:inter_bank_transfer) }
 
       it 'applies transfer fee to origin account' do
-        allow(transfer).to receive(:fail?).and_return(false)
+        allow(destination_account).to receive(:fail?).and_return(false)
 
         expect { transfer.apply }
           .to change(origin_account, :balance).by(-transfer.amount - described_class::INTERBANK_FEE)
@@ -46,7 +46,7 @@ RSpec.describe Transfer do
 
       context 'and it fails' do
         it 'does not apply the changes' do
-          allow(transfer).to receive(:fail?).and_return(true)
+          allow(destination_account).to receive(:fail?).and_return(true)
 
           expect do
             expect(transfer.apply).to be false
@@ -58,7 +58,7 @@ RSpec.describe Transfer do
         let(:transfer) { build(:inter_bank_transfer, :over_limit) }
 
         it 'does not apply the changes' do
-          allow(transfer).to receive(:fail?).and_return(false)
+          allow(destination_account).to receive(:fail?).and_return(false)
 
           expect do
             expect(transfer.apply).to be false
