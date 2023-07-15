@@ -14,22 +14,22 @@ RSpec.describe Bank do
     let(:bank) { build(:bank) }
 
     context 'when the transfer is already stored' do
-      it 'does not add it again' do
+      it 'raises ArgumentError' do
         account  = build(:account, bank: bank)
         transfer = build(:transfer, origin: account)
         bank.store_transfer(transfer)
 
-        bank.store_transfer(transfer)
+        expect { bank.store_transfer(transfer) }.to raise_error(ArgumentError, 'transfer already added')
 
         expect(bank.transfers).to match([transfer])
       end
     end
 
-    context 'when the transfer does not belong to the bank' do
+    context 'when the transfer is already stored' do
       it 'does nothing' do
         transfer = build(:transfer)
 
-        bank.store_transfer(transfer)
+        expect { bank.store_transfer(transfer) }.to raise_error(ArgumentError, 'transfer does not belong to bank')
 
         expect(bank.transfers).to be_empty
       end

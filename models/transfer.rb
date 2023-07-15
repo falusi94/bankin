@@ -37,7 +37,7 @@ class Transfer
 
   def store_transfer_in_banks
     origin.bank.store_transfer(self)
-    destination.bank.store_transfer(self)
+    destination.bank.store_transfer(self) if inter_bank?
   end
 
   def over_limit?

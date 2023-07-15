@@ -14,8 +14,9 @@ class Bank
   end
 
   def store_transfer(transfer)
-    return if transfers.include?(transfer) ||
-              accounts.exclude?(transfer.origin) && accounts.exclude?(transfer.destination)
+    raise ArgumentError, 'transfer already added' if transfers.include?(transfer)
+    raise ArgumentError, 'transfer does not belong to bank' if accounts.exclude?(transfer.origin) &&
+                                                               accounts.exclude?(transfer.destination)
 
     @transfers << transfer
   end
