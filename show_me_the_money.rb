@@ -4,6 +4,7 @@ require_relative 'boot'
 
 class ShowMeTheMoney
   attr_reader :jims_account, :emmas_account, :bank_a, :bank_b
+
   def initialize
     @bank_a = Bank.new(name: 'A')
     @bank_b = Bank.new(name: 'B')
@@ -12,10 +13,16 @@ class ShowMeTheMoney
   end
 
   def run
+    puts jims_account
+    puts emmas_account
+
     agent = TransferAgent.new(origin: jims_account, destination: emmas_account,
                               amount: 20_000, transfer_limit: 1000)
     agent.transfer
     bank_a.log_transfers
     bank_b.log_transfers
+
+    puts jims_account
+    puts emmas_account
   end
 end

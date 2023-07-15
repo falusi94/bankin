@@ -21,6 +21,8 @@ class Bank
     @transfers << transfer
   end
 
+  alias to_s name
+
   def log_transfers
     p '-----------------'
     p "#{name} transfers"

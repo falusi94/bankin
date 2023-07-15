@@ -47,4 +47,12 @@ RSpec.describe Account do
       end
     end
   end
+
+  describe '#to_s' do
+    subject(:to_s) { account.to_s }
+
+    let(:account) { build(:account, user: 'Alice', balance: 2300, bank: build(:bank, name: 'Bank name')) }
+
+    it { is_expected.to eq("Alice's balance at Bank name: 2300") }
+  end
 end

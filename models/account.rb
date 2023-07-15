@@ -19,6 +19,10 @@ class Account
     @balance += amount
   end
 
+  def to_s
+    "#{user}'s balance at #{bank}: #{balance}"
+  end
+
   private
 
   def fail?
