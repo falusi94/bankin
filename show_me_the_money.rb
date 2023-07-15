@@ -18,7 +18,7 @@ class ShowMeTheMoney
 
     agent = TransferAgent.new(origin: jims_account, destination: emmas_account,
                               amount: 20_000, transfer_limit: 1000)
-    agent.transfer
+    agent.make_transfer
     bank_a.log_transfers
     bank_b.log_transfers
 

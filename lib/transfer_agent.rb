@@ -10,7 +10,7 @@ class TransferAgent
     @transfer_limit = transfer_limit
   end
 
-  def transfer
+  def make_transfer
     return create_transfer(amount) unless multi_transfer?
 
     multi_transfer_amount
