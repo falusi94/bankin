@@ -105,9 +105,4 @@ RSpec.configure do |config|
   config.before(:suite) do
     FactoryBot.find_definitions
   end
-
-  # Global mocks
-  config.before(:each) do
-    allow(TransferLogger).to receive(:info)
-  end
 end

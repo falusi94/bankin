@@ -18,7 +18,6 @@ class Transfer
 
     transfer_money
     mark_successful
-    log_transfer
     true
   rescue TransferError
     rollback_transfer
@@ -55,10 +54,6 @@ class Transfer
 
   def mark_successful
     @completed_at = Time.now
-  end
-
-  def log_transfer
-    TransferLogger.info(self)
   end
 
   def rollback_transfer
