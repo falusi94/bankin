@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TransferAgent
-  attr_accessor :origin, :destination, :amount, :transfer_limit
+  attr_reader :origin, :destination, :amount, :transfer_limit
 
   def initialize(origin:, destination:, amount:, transfer_limit: nil)
     @origin         = origin
