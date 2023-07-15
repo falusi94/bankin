@@ -77,4 +77,20 @@ RSpec.describe Transfer do
       end
     end
   end
+
+  describe '#successful?' do
+    subject(:successful?) { transfer.successful? }
+
+    context 'when the transfer is successful' do
+      let(:transfer) { build(:transfer, :successful) }
+
+      it { is_expected.to be(true) }
+    end
+
+    context 'when the transfer is not successful' do
+      let(:transfer) { build(:transfer) }
+
+      it { is_expected.to be(false) }
+    end
+  end
 end
