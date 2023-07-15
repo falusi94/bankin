@@ -10,28 +10,42 @@ RSpec.describe TransferAgent do
   end
 
   describe '#make_transfer' do
+    subject(:make_transfer) { agent.make_transfer }
+
     let(:origin_account) { build(:account) }
+    let(:agent) do
+      described_class.new(
+        origin:         origin_account,
+        destination:    destination_account,
+        amount:         2000,
+        transfer_limit: 1000
+      )
+    end
 
     context 'when the transfer is intra-bank' do
-      it 'transfers the money' do
-        destination_account = build(:account, bank: origin_account.bank)
-        agent = described_class.new(origin: origin_account, destination: destination_account, amount: 100)
+      let(:destination_account) { build(:account, bank: origin_account.bank) }
 
-        expect(agent.make_transfer).to be_successful
+      it 'adds the money to the destination account' do
+        expect { make_transfer }.to change(destination_account, :balance).by(agent.amount)
+      end
+
+      it 'returns the transfers' do
+        expect(make_transfer).to match(
+          [(be_kind_of(Transfer).and have_attributes(origin: origin_account, destination: destination_account))]
+        )
       end
     end
 
     context 'when transfer involves inter-bank transfers' do
-      it 'transfers the money' do
-        destination_account = build(:account)
-        agent = described_class.new(
-          origin:         origin_account,
-          destination:    destination_account,
-          amount:         2000,
-          transfer_limit: 1000
-        )
+      let(:destination_account) { build(:account) }
 
-        expect { agent.make_transfer }.to change(destination_account, :balance).by(agent.amount)
+      it 'adds the money to the destination account' do
+        expect { make_transfer }.to change(destination_account, :balance).by(agent.amount)
+      end
+
+      it 'returns the transfers' do
+        expect(make_transfer)
+          .to all(be_kind_of(Transfer).and(have_attributes(origin: origin_account, destination: destination_account)))
       end
     end
   end

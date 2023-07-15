@@ -8,12 +8,17 @@ class TransferAgent
     @destination    = destination
     @amount         = amount
     @transfer_limit = transfer_limit
+    @transfers      = []
   end
 
   def make_transfer
-    return create_transfer(amount) unless multi_transfer?
+    if multi_transfer?
+      multi_transfer_amount
+    else
+      create_transfer(amount)
+    end
 
-    multi_transfer_amount
+    @transfers
   end
 
   private
@@ -34,7 +39,7 @@ class TransferAgent
   end
 
   def create_transfer(amount)
-    Transfer.create(origin: origin, destination: destination, amount: amount)
+    Transfer.create(origin: origin, destination: destination, amount: amount).tap { |transfer| @transfers << transfer }
   end
 
   def inter_bank?

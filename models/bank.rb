@@ -22,11 +22,4 @@ class Bank
   end
 
   alias to_s name
-
-  def log_transfers
-    p '-----------------'
-    p "#{name} transfers"
-    p '-----------------'
-    transfers.each { |transfer| TransferLogger.info(transfer) }
-  end
 end
