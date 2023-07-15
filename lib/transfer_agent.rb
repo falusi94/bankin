@@ -11,7 +11,7 @@ class TransferAgent
   end
 
   def transfer
-    return transfer_amount(amount) unless multi_transfer?
+    return create_transfer(amount) unless multi_transfer?
 
     multi_transfer_amount
   end
@@ -30,9 +30,8 @@ class TransferAgent
     inter_bank? && amount > transfer_limit
   end
 
-  def transfer_amount(amount)
-    transfer = Transfer.new(origin: origin, destination: destination, amount: amount)
-    transfer.apply
+  def create_transfer(amount)
+    Transfer.create(origin: origin, destination: destination, amount: amount)
   end
 
   def inter_bank?

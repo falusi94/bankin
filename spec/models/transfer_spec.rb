@@ -10,6 +10,16 @@ RSpec.describe Transfer do
     end
   end
 
+  describe '.create' do
+    it 'initializes and applies the transfer' do
+      attributes = attributes_for(:intra_bank_transfer)
+
+      transfer = described_class.create(attributes)
+
+      expect(transfer).to be_successful.and have_attributes(attributes)
+    end
+  end
+
   describe '#apply' do
     let(:origin_account) { transfer.origin }
     let(:destination_account) { transfer.destination }

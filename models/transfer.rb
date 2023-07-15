@@ -25,6 +25,10 @@ class Transfer
     false
   end
 
+  def self.create(*args)
+    new(*args).tap(&:apply)
+  end
+
   def successful?
     completed_at.present?
   end
