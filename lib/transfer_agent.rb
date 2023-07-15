@@ -20,9 +20,12 @@ class TransferAgent
 
   def multi_transfer_amount
     transfered_amount = 0
+
     until transfered_amount == amount
-      a = [amount - transfered_amount, transfer_limit].min
-      transfered_amount += a if transfer_amount(a)
+      amount_to_transfer = [amount - transfered_amount, transfer_limit].min
+      transfer           = create_transfer(amount_to_transfer)
+
+      transfered_amount += amount_to_transfer if transfer.successful?
     end
   end
 

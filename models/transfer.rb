@@ -49,7 +49,7 @@ class Transfer
   end
 
   def transfer_money
-    origin.apply_change(-decrease_amount)
+    origin.apply_change(-amount_to_subtract)
     destination.apply_change(amount, inter_bank_transfer: inter_bank?)
   end
 
@@ -62,10 +62,10 @@ class Transfer
   end
 
   def rollback_transfer
-    origin.apply_change(decrease_amount)
+    origin.apply_change(amount_to_subtract)
   end
 
-  def decrease_amount
+  def amount_to_subtract
     inter_bank? ? amount + INTERBANK_FEE : amount
   end
 end
